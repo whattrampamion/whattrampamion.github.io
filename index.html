@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>What Tramp Am I On Today?</title>
+		<base href = "file:///Users/trevorstirling/Dropbox/Documents/Trampoline/Websites/What%20Tramp%20Am%20I%20On%20Today/" />
+		<link rel="stylesheet" type="text/css" href="Website_Data/style.css">
+		<link rel="shortcut icon" type="image/x-icon" href="Website_Data/Skyriders_Favicon.ico"/>
+		<link rel="apple-touch-icon" href="Website_Data/Skyriders_Apple_Icon.png"/>
+	</head>
+ 	<body>
+		<div class="body">
+			<p><span>Marty is coaching</span></p>
+			<p><span>Rosie is on the TV Trampoline</span></p>
+			<p><span>Rachel is on </span><span id="Rachel"></span></p>
+			<p><span>Jake is on </span><span id="Jake"></span></p>
+			<p><span>Trevor is on </span><span id="Trevor"></span></p>
+		</div>
+	</body>
+	<script>
+		var d = new Date();
+		var date = d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+		var seed = 1;
+		var a = 523213;
+		var c = 0;
+		var m = 747139;
+		var rng = seed;
+		for (i = 0; i < date; i++) {
+			rng = (a*rng+c)%m;
+		}
+		result = Math.round(0.5+rng/(m-1)*6)-1;
+		if (result==0) {
+			document.getElementById("Rachel").innerHTML = "Super Trampoline";
+			document.getElementById("Jake").innerHTML = "the Workout Trampoline";
+			document.getElementById("Trevor").innerHTML = "the Middle Trampoline";
+		} else if (result==1) {
+			document.getElementById("Rachel").innerHTML = "Super Trampoline";
+			document.getElementById("Jake").innerHTML = "the Middle Trampoline";
+			document.getElementById("Trevor").innerHTML = "the Workout Trampoline";
+		} else if (result==2) {
+			document.getElementById("Rachel").innerHTML = "the Middle Trampoline";
+			document.getElementById("Jake").innerHTML = "Super Trampoline";
+			document.getElementById("Trevor").innerHTML = "the Workout Trampoline";
+		} else if (result==3) {
+			document.getElementById("Rachel").innerHTML = "the Workout Trampoline";
+			document.getElementById("Jake").innerHTML = "Super Trampoline";
+			document.getElementById("Trevor").innerHTML = "the Middle Trampoline";
+		} else if (result==4) {
+			document.getElementById("Rachel").innerHTML = "the Workout Trampoline";
+			document.getElementById("Jake").innerHTML = "the Middle Trampoline";
+			document.getElementById("Trevor").innerHTML = "Super Trampoline";
+		} else if (result==5) {
+			document.getElementById("Rachel").innerHTML = "the Middle Trampoline";
+			document.getElementById("Jake").innerHTML = "the Workout Trampoline";
+			document.getElementById("Trevor").innerHTML = "Super Trampoline";
+		}
+	</script>
+</html>

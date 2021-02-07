@@ -1,0 +1,19 @@
+/*Style for whole page*/
+html {
+	background-color: #1D1D1F;
+	font-family:'Oswald', 'Helvetica', 'Arial', 'Sans-Serif';
+}
+body {
+	margin: 0 auto;
+}
+
+/*Style for body*/
+.body {
+	background-color: #F3F2F4;
+}
+.body p {
+	color: #4C4C4C;
+	font-size: 1.5em;
+	line-height: 1em;
+	text-align: center;
+}
