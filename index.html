@@ -8,50 +8,77 @@
 		<link rel="apple-touch-icon" href="Website_Data/Skyriders_Apple_Icon.png"/>
 	</head>
  	<body>
-		<div class="body">
-			<p><span>Marty is coaching</span></p>
-			<p><span>Rosie is on the TV Trampoline</span></p>
-			<p><span>Rachel is on </span><span id="Rachel"></span></p>
-			<p><span>Jake is on </span><span id="Jake"></span></p>
-			<p><span>Trevor is on </span><span id="Trevor"></span></p>
+		<div class="body" id="main">
 		</div>
 	</body>
 	<script>
-		var d = new Date();
-		var date = d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
-		var seed = 1;
-		var a = 523213;
-		var c = 0;
-		var m = 747139;
-		var rng = seed;
-		for (i = 0; i < date; i++) {
+		//////////////////////////////////////////////////////////////////////////////////////////
+		//Who is jumping																		//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		var names = ["Rachel", "Jake", "Mariko", "Ethan"]
+		var trampolines = ["the TV Trampoline", "the Middle Trampoline", "the Workout Trampoline", "Super Trampoline"]
+		//////////////////////////////////////////////////////////////////////////////////////////
+		//Print the date																		//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		const d = new Date();
+		const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
+		const weekday = new Intl.DateTimeFormat('en', { weekday: 'long' }).format(d);
+		const month = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
+		const day = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
+		var p = document.createElement('p');
+		document.getElementById("main").appendChild(p);
+		p.innerHTML = "<span class=\"body_title\">"+weekday+" "+month+" "+day+", "+year+"</span>"
+		//////////////////////////////////////////////////////////////////////////////////////////
+		//Generate fields to fill																//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		const n = names.length
+		for (i = 0; i < n; i++) {
+			p = document.createElement('p');
+			document.getElementById("main").appendChild(p);
+			p.innerHTML = "<span id=name_"+i+"></span><span> is on </span><span id=trampoline_"+i+"></span>"
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////
+		//Factorial function																	//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		var f = [];
+		function factorial (n) {
+			if (n == 0 || n == 1)
+				return 1;
+			if (f[n] > 0)
+				return f[n];
+			return f[n] = factorial(n-1) * n;
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////
+		//Generate a pseudo-random number from 0 to 1 using the date as the seed				//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		const seed = d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+		const a = 523213;
+		const c = 0;
+		const m = 747139;
+		var rng = 1;
+		for (i = 0; i < seed; i++) {
 			rng = (a*rng+c)%m;
 		}
-		result = Math.round(0.5+rng/(m-1)*6)-1;
-		if (result==0) {
-			document.getElementById("Rachel").innerHTML = "Super Trampoline";
-			document.getElementById("Jake").innerHTML = "the Workout Trampoline";
-			document.getElementById("Trevor").innerHTML = "the Middle Trampoline";
-		} else if (result==1) {
-			document.getElementById("Rachel").innerHTML = "Super Trampoline";
-			document.getElementById("Jake").innerHTML = "the Middle Trampoline";
-			document.getElementById("Trevor").innerHTML = "the Workout Trampoline";
-		} else if (result==2) {
-			document.getElementById("Rachel").innerHTML = "the Middle Trampoline";
-			document.getElementById("Jake").innerHTML = "Super Trampoline";
-			document.getElementById("Trevor").innerHTML = "the Workout Trampoline";
-		} else if (result==3) {
-			document.getElementById("Rachel").innerHTML = "the Workout Trampoline";
-			document.getElementById("Jake").innerHTML = "Super Trampoline";
-			document.getElementById("Trevor").innerHTML = "the Middle Trampoline";
-		} else if (result==4) {
-			document.getElementById("Rachel").innerHTML = "the Workout Trampoline";
-			document.getElementById("Jake").innerHTML = "the Middle Trampoline";
-			document.getElementById("Trevor").innerHTML = "Super Trampoline";
-		} else if (result==5) {
-			document.getElementById("Rachel").innerHTML = "the Middle Trampoline";
-			document.getElementById("Jake").innerHTML = "the Workout Trampoline";
-			document.getElementById("Trevor").innerHTML = "Super Trampoline";
+		//////////////////////////////////////////////////////////////////////////////////////////
+		//Convert to pseudo-random number number from 1 to n!									//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		rand_num = Math.round(0.5+rng/(m-1)*factorial(n))
+		//////////////////////////////////////////////////////////////////////////////////////////
+		//Convert pseudo-random number to random permutation and assign trampolines				//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		var i = 0
+		for (j = n-1; j > 0; j--) {
+			fj = factorial(j)
+			i = Math.ceil(rand_num/fj)-1
+			rand_num = rand_num%fj
+			if (rand_num == 0) {
+				rand_num = fj
+			}
+			document.getElementById("name_"+j).innerHTML = names[i];
+			document.getElementById("trampoline_"+j).innerHTML = trampolines[j];
+			names.splice(i,1)
 		}
+		document.getElementById("name_0").innerHTML = names[0];
+		document.getElementById("trampoline_0").innerHTML = trampolines[0];
 	</script>
 </html>
