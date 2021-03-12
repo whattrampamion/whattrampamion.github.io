@@ -13,14 +13,11 @@
 	</body>
 	<script>
 		//////////////////////////////////////////////////////////////////////////////////////////
-		//Who is jumping																		//
-		//////////////////////////////////////////////////////////////////////////////////////////
-		var names = ["Rachel", "Jake", "Mariko", "Ethan"]
-		var trampolines = ["the TV Trampoline", "the Middle Trampoline", "the Workout Trampoline", "Super Trampoline"]
-		//////////////////////////////////////////////////////////////////////////////////////////
 		//Print the date																		//
 		//////////////////////////////////////////////////////////////////////////////////////////
 		const d = new Date();
+		//Offset date for debugging
+		//d.setDate(d.getDate() + 2);
 		const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
 		const weekday = new Intl.DateTimeFormat('en', { weekday: 'long' }).format(d);
 		const month = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
@@ -29,9 +26,18 @@
 		document.getElementById("main").appendChild(p);
 		p.innerHTML = "<span class=\"body_title\">"+weekday+" "+month+" "+day+", "+year+"</span>"
 		//////////////////////////////////////////////////////////////////////////////////////////
+		//Who is jumping																		//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		if (weekday == "Friday" || weekday == "Sunday") {
+			var names = ["Rachel", "Jake", "Mariko", "Ethan", "Mariah"]
+		} else {
+			var names = ["Rachel", "Jake", "Mariko", "Ethan"]
+		}
+		var trampolines = ["the TV Trampoline", "the Middle Trampoline", "the Workout Trampoline", "Super Trampoline", "the Staircase Trampoline"]
+		//////////////////////////////////////////////////////////////////////////////////////////
 		//Generate fields to fill																//
 		//////////////////////////////////////////////////////////////////////////////////////////
-		const n = names.length
+		const n = Math.min(names.length,trampolines.length)
 		for (i = 0; i < n; i++) {
 			p = document.createElement('p');
 			document.getElementById("main").appendChild(p);
