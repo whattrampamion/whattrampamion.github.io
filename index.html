@@ -9,44 +9,37 @@
 	</head>
  	<body>
 		<div class="body" id="main">
+			<p class="body_title" id="date_field"></p>
+			<p id="date_input_field">Check other date: <input type="date" id="dates_input"><button onclick="update_date();">Check</button></p>
 		</div>
 	</body>
 	<script>
 		//////////////////////////////////////////////////////////////////////////////////////////
-		//Print the date																		//
-		//////////////////////////////////////////////////////////////////////////////////////////
-		const d = new Date();
-		//Offset date for debugging
-		//d.setDate(d.getDate() + 1);
-		const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
-		const weekday = new Intl.DateTimeFormat('en', { weekday: 'long' }).format(d);
-		const month = new Intl.DateTimeFormat('en', { month: 'long' }).format(d);
-		const day = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(d);
-		var p = document.createElement('p');
-		document.getElementById("main").appendChild(p);
-		p.innerHTML = "<span class=\"body_title\">"+weekday+" "+month+" "+day+", "+year+"</span>"
-		//////////////////////////////////////////////////////////////////////////////////////////
-		//Who is jumping																		//
+		//Define variables																		//
 		//////////////////////////////////////////////////////////////////////////////////////////
 		var names = ["Rachel and Trevor", "Jake and Mariah", "Ethan and Mariko"]
 		var names_are_plural = 1
 		var trampolines = ["the Middle Trampoline", "the Workout Trampoline", "Super Trampoline"]
 		//////////////////////////////////////////////////////////////////////////////////////////
-		//Generate fields to fill																//
+		//Define functions																		//
 		//////////////////////////////////////////////////////////////////////////////////////////
-		const n = Math.min(names.length,trampolines.length)
-		for (i = 0; i < n; i++) {
-			p = document.createElement('p');
-			document.getElementById("main").appendChild(p);
-			if (names_are_plural)
-				p.innerHTML = "<span id=name_"+i+"></span><span> are on </span><span id=trampoline_"+i+"></span>";
-			else
-				p.innerHTML = "<span id=name_"+i+"></span><span> is on </span><span id=trampoline_"+i+"></span>";
+		function print_date(date) {
+			const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(date);
+			const weekday = new Intl.DateTimeFormat('en', { weekday: 'long' }).format(date);
+			const month = new Intl.DateTimeFormat('en', { month: 'long' }).format(date);
+			const day = new Intl.DateTimeFormat('en', { day: 'numeric' }).format(date);
+			document.getElementById("date_field").innerHTML = weekday+" "+month+" "+day+", "+year;
 		}
-		//////////////////////////////////////////////////////////////////////////////////////////
-		//Factorial function																	//
-		//////////////////////////////////////////////////////////////////////////////////////////
-		var f = [];
+		function  update_date() {
+			var datestring = document.getElementById("dates_input").value;
+			var date_parts = datestring.split('-');
+			if (datestring) {
+				another_date = new Date(date_parts[0], date_parts[1]-1, date_parts[2]);
+				print_date(another_date)
+				assign_trampolines(another_date)
+			}
+		}
+		var f = []; //Variable to hold factorial values for more efficient future calculations
 		function factorial (n) {
 			if (n == 0 || n == 1)
 				return 1;
@@ -54,37 +47,51 @@
 				return f[n];
 			return f[n] = factorial(n-1) * n;
 		}
-		//////////////////////////////////////////////////////////////////////////////////////////
-		//Generate a pseudo-random number from 0 to 1 using the date as the seed				//
-		//////////////////////////////////////////////////////////////////////////////////////////
-		const seed = d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
-		const a = 523213;
-		const c = 0;
-		const m = 747139;
-		var rng = 1;
-		for (i = 0; i < seed; i++) {
-			rng = (a*rng+c)%m;
-		}
-		//////////////////////////////////////////////////////////////////////////////////////////
-		//Convert to pseudo-random number number from 1 to n!									//
-		//////////////////////////////////////////////////////////////////////////////////////////
-		rand_num = Math.round(0.5+rng/(m-1)*factorial(n))
-		//////////////////////////////////////////////////////////////////////////////////////////
-		//Convert pseudo-random number to random permutation and assign trampolines				//
-		//////////////////////////////////////////////////////////////////////////////////////////
-		var i = 0
-		for (j = n-1; j > 0; j--) {
-			fj = factorial(j)
-			i = Math.ceil(rand_num/fj)-1
-			rand_num = rand_num%fj
-			if (rand_num == 0) {
-				rand_num = fj
+		function assign_trampolines(date) {
+			var names_copy = [...names];
+			//Generate a pseudo-random number from 0 to 1 using the date as the seed
+			const seed = date.getFullYear()*10000+(date.getMonth()+1)*100+date.getDate();
+			const a = 523213;
+			const c = 0;
+			const m = 747139;
+			var rng = 1;
+			for (i = 0; i < seed; i++) {
+				rng = (a*rng+c)%m;
 			}
-			document.getElementById("name_"+j).innerHTML = names[i];
-			document.getElementById("trampoline_"+j).innerHTML = trampolines[j];
-			names.splice(i,1)
+			//Convert to pseudo-random number number from 1 to n!
+			rand_num = Math.round(0.5+rng/(m-1)*factorial(n))
+			//Convert pseudo-random number to random permutation and assign trampolines
+			var i = 0
+			for (j = n-1; j > 0; j--) {
+				fj = factorial(j)
+				i = Math.ceil(rand_num/fj)-1
+				rand_num = rand_num%fj
+				if (rand_num == 0) {
+					rand_num = fj
+				}
+				document.getElementById("name_"+j).innerHTML = names_copy[i];
+				document.getElementById("trampoline_"+j).innerHTML = trampolines[j];
+				names_copy.splice(i,1)
+			}
+			document.getElementById("name_0").innerHTML = names_copy[0];
+			document.getElementById("trampoline_0").innerHTML = trampolines[0];
 		}
-		document.getElementById("name_0").innerHTML = names[0];
-		document.getElementById("trampoline_0").innerHTML = trampolines[0];
+		//////////////////////////////////////////////////////////////////////////////////////////
+		//Prepare webpage																		//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		var date_today = new Date();
+		print_date(date_today)
+		//Generate fields to fill
+		const n = Math.min(names.length,trampolines.length)
+		var date_input_field = document.getElementById("date_input_field");
+		for (i = 0; i < n; i++) {
+			p = document.createElement('p');
+			document.getElementById("main").insertBefore(p, date_input_field);
+			if (names_are_plural)
+				p.innerHTML = "<span id=name_"+i+"></span><span> are on </span><span id=trampoline_"+i+"></span>";
+			else
+				p.innerHTML = "<span id=name_"+i+"></span><span> is on </span><span id=trampoline_"+i+"></span>";
+		}
+		assign_trampolines(date_today)
 	</script>
 </html>

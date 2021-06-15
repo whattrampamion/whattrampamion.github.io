@@ -17,6 +17,23 @@ body {
 	line-height: 1em;
 	text-align: center;
 }
+.body input {
+	color: #4C4C4C;
+	font-size: 1em;
+	line-height: 1em;
+	text-align: center;
+}
+.body button {
+ 	background-color: #C33531;
+ 	border: none;
+ 	color: white;
+ 	font-size: 1em;
+	transition: .5s;
+	cursor:pointer;
+}
+.body button:hover {
+ 	background-color: #ec4854;
+}
 
 .body_title {
 	font-weight: bold;
