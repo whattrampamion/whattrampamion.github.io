@@ -7,9 +7,22 @@ body {
 	margin: 0 auto;
 }
 
+/*Style for header*/
+.header th {
+	color: #F3F2F4;
+	font-size: 2em;
+}
+
 /*Style for body*/
 .body {
 	background-color: #F3F2F4;
+}
+.body h1 {
+    	color: #4C4C4C;
+	font-size: 2em;
+	line-height: 1em;
+	text-align: center;
+    	text-decoration: underline;
 }
 .body p {
 	color: #4C4C4C;
@@ -32,10 +45,9 @@ body {
 	cursor:pointer;
 }
 .body button:hover {
- 	background-color: #ec4854;
+ 	background-color: #EC4854;
 }
 
 .body_title {
 	font-weight: bold;
-	text-decoration: underline;
 }

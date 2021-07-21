@@ -1,0 +1,13 @@
+document.write('\
+	<div class="header">\
+			<br>\
+			<center>\
+				<table>\
+					<tr>\
+						<th><span class="header_title">What Trampoline Am I On Today?</span><br></th>\
+					</tr>\
+				</table>\
+			</center>\
+			<br>\
+		</div>\
+')
